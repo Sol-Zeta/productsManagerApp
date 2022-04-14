@@ -1,22 +1,27 @@
 import React from 'react';
 import {ScrollView, View, Text, Image} from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
+import {StackScreenProps} from '@react-navigation/stack';
+import {MainNavigationParams} from '../../interfaces';
 import {ProductCard} from '../index';
-import { MainNavigationParams } from '../../interfaces'
 import {images} from '../../assetsRoutes';
-import {IProductCard} from '../../interfaces';
+import {IProduct} from '../../interfaces';
 
 interface Props {
   direction?: 'horizontal' | 'vertical';
   title?: string;
-  list: IProductCard[];
+  list: IProduct[];
+  navigation: StackScreenProps<MainNavigationParams> | any;
 }
 
-export const CardList = ({direction = 'vertical', title, list}: Props) => {
-
+export const CardList = ({
+  direction = 'vertical',
+  title,
+  list,
+  navigation,
+}: Props) => {
   const renderCards = () =>
-    list.map((e: IProductCard, i: number) => (
-      <ProductCard key={`product-card-${i}`} {...e} />
+    list.map((e: IProduct, i: number) => (
+      <ProductCard key={`product-card-${i}`} {...e} navigation={navigation} />
     ));
 
   return (

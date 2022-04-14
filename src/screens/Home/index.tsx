@@ -23,6 +23,7 @@ export const Home = ({navigation}: StackScreenProps<MainNavigationParams>) => {
         <View>
             <ScrollView>
                 <CardList
+                    navigation={navigation}
                     direction='horizontal'
                     title='Todos los productos'
                     list={[
