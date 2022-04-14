@@ -1,4 +1,4 @@
 import { MainNavigationParams } from './MainNavigationParams';
-import { IProductCard } from './IProductCard';
+import { IProduct } from './IProduct';
 
-export type { MainNavigationParams, IProductCard };
+export type { MainNavigationParams, IProduct };
