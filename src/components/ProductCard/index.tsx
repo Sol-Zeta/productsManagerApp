@@ -1,7 +1,11 @@
 import React from 'react';
-import {ScrollView, View, Text, Image} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {images} from '../../assetsRoutes';
+import {TouchableOpacity, ScrollView, View, Text, Image} from 'react-native';
+import {StackScreenProps} from '@react-navigation/stack';
+import {MainNavigationParams} from '../../interfaces';
+import {icons, images} from '../../assetsRoutes';
+import {styles} from './styles';
+import {findImageByName} from '../../utils';
+import {IconButton} from '../../components/Button';
 
 interface Props {
   _id: string;
@@ -10,6 +14,7 @@ interface Props {
   active: boolean;
   price: number;
   SKU: string;
+  navigation: StackScreenProps<MainNavigationParams> | any;
 }
 
 export const ProductCard = ({
@@ -19,19 +24,31 @@ export const ProductCard = ({
   active,
   price,
   SKU,
+  navigation,
 }: Props) => {
+  const handlePress = () => {
+    navigation.navigate('productDetail', {itemId: _id});
+  };
+
   return (
-    <TouchableOpacity>
-      <View>
-        <Image source={images.card_picture} />
+    <TouchableOpacity
+      activeOpacity={0.9}
+      style={styles.card}
+      onPress={handlePress}>
+      <View style={styles.container}>
+        <View style={styles.image_container}>
+          <Image style={styles.image} source={findImageByName(name)} />
+        </View>
+        <View style={styles.text_container}>
+          <Text style={styles.price}>{`${price} €`}</Text>
+          <Text style={styles.name}>{name}</Text>
+          <View style={styles.buttons_container}>
+            <IconButton small icon={icons.share} onPress={() => {}} />
+            <IconButton small icon={icons.edit} onPress={() => {}} />
+            <IconButton small icon={icons.delete} onPress={() => {}} />
+          </View>
+        </View>
       </View>
-      <View>
-        <Text>{name}</Text>
-        <Text>{description}</Text>
-        <Text>{active}</Text>
-        <Text>{price}</Text>
-      </View>
-      <View>{/* BUTTONS */}</View>
     </TouchableOpacity>
   );
 };
