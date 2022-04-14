@@ -1,18 +1,33 @@
 import {StyleSheet} from 'react-native';
+import {colors, flex, shadows} from '../../../styles/common';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderRadius: 5,
+    ...flex.column_center,
+    borderRadius: 23,
+    width: 46,
+    height: 46,
+    backgroundColor: colors.primaryDark,
+    ...shadows.primary,
+  },
+  container_transparent: {
+    backgroundColor: 'transparent',
+    borderRadius: 0,
+    width: 32,
+    height: 32,
+    shadowColor: 'transparent',
   },
   secondary: {
-    fontSize: 18,
-    fontFamily: 'Gill Sans',
-    textAlign: 'center',
-    margin: 10,
-    color: '#ffffff',
-    backgroundColor: 'transparent',
+    backgroundColor: colors.secondaryLight,
   },
+  icon: {
+    width: 23,
+    height: 23,
+    resizeMode: 'contain',
+  },
+  icon_large: {
+    width: 46,
+    height: 46,
+  },
+  icon_light: {},
 });
