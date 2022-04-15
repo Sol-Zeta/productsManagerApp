@@ -29,6 +29,10 @@ export const styles = StyleSheet.create({
     marginHorizontal: '8%',
     marginBottom: margins.large_margin,
   },
+  single_button_container: {
+    width: '100%',
+    marginTop: margins.medium_margin,
+  },
   buttons_container: {
     ...flex.row_space_between,
     width: '100%',
@@ -36,5 +40,9 @@ export const styles = StyleSheet.create({
   },
   button_standard: {
     width: '45%'
+  },
+  button_reset: {
+    width: '100%',
+    backgroundColor: colors.error
   },
 });

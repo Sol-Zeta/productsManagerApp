@@ -6,6 +6,7 @@ export const icons = {
     edit: require('../assets/icons/edit.png'),
     forward: require('../assets/icons/forward.png'),
     marked: require('../assets/icons/marked.png'),
+    refresh: require('../assets/icons/refresh.png'),
     search: require('../assets/icons/search.png'),
     share: require('../assets/icons/share.png'),
     unmarked: require('../assets/icons/unmarked.png')
