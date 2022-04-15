@@ -11,18 +11,12 @@ interface Props {
   secondValue?: string;
   errorMessage?: string;
   inputKey: string;
-  changeFormValues: ({
-    inputKey,
-    value,
-  }: {
-    inputKey: string;
-    value: string | number | boolean;
-  }) => void;
+  onChange: (value:boolean) => void;
 }
 
 export const FormSwitchInput = ({
   inputKey,
-  changeFormValues,
+  onChange,
   value,
   firstValue,
   secondValue,
@@ -35,10 +29,7 @@ export const FormSwitchInput = ({
   }, [value]);
 
   useEffect(() => {
-    changeFormValues({
-        inputKey,
-        value: inputValue,
-      })
+    onChange(inputValue)
   }, [inputValue])
   
 
@@ -46,9 +37,10 @@ export const FormSwitchInput = ({
     <View style={styles.container}>
     <View style={styles.switch_container}>
       <Switch
-        style={{backgroundColor: inputValue ? colors.check : colors.info, borderRadius: 15}}
+        color={colors.primaryDark}
+        style={{backgroundColor: inputValue ? colors.primaryDark : colors.secondaryDark, borderRadius: 15}}
         value={inputValue}
-        onValueChange={() => setInputValue(!inputValue)}
+        onValueChange={()=>setInputValue(!inputValue)}
       />
       {(firstValue || secondValue) && <Text style={styles.text}>{inputValue ? secondValue : firstValue}</Text>}
     </View>    

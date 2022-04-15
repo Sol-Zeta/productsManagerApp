@@ -22,14 +22,16 @@ export const StandardButton = ({text, onPress, secondary, customStyle}: Props) =
         style={[
           styles.container, 
           secondary && styles.secondary,
-          customStyle && customStyle
+          customStyle && customStyle,
+          text.length > 15 && styles.container_large
         ]}
         onPress={onPress}
     >
         <Text
           style={[
             styles.text,
-            isPressed && styles.pressed
+            isPressed && styles.pressed,  
+            text.length > 10 && styles.text_small
           ]}
         >{text}</Text>
     </TouchableHighlight>

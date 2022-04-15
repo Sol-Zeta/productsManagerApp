@@ -4,12 +4,14 @@ import { colors, flex, fonts, shadows } from '../../../styles/common';
 export const styles = StyleSheet.create({
   container: {
     ...flex.column_center,
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingHorizontal: 15,
     borderRadius: 5,
     height: 60,
     backgroundColor: colors.primaryDark,
     ...shadows.primary
+  },
+  container_large: {
+    paddingHorizontal: 10
   },
   text: {
     fontSize: fonts.medium_text,
@@ -18,6 +20,11 @@ export const styles = StyleSheet.create({
     color: colors.white,
     textTransform: 'uppercase',
     letterSpacing: 2
+  },
+  text_small: {
+    fontSize: fonts.xsmall_text,
+    letterSpacing: 1,
+    lineHeight: fonts.xsmall_text+3
   },
   pressed: {
     color: colors.black

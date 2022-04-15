@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
   },
   buttons_container: {
     ...flex.row_space_between,
-    width: '80%',
+    width: '100%',
     marginTop: margins.xlarge_margin,
   },
   button_close: {
@@ -53,6 +53,7 @@ export const styles = StyleSheet.create({
       top:-12
   },
   button_standard: {
-    height: 40
+    height: 40, 
+    width: '45%'
   }
 });

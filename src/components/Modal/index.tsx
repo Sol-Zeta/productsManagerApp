@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
 import {IconButton, StandardButton} from '../Button';
 import {icons} from '../../assetsRoutes';
@@ -27,6 +27,9 @@ export const Modal = ({
   children,
 }: Props) => {
   const [isOpen, setIsOpen] = useState(openModal);
+
+  useEffect(() => setIsOpen(openModal), [openModal])
+  
 
   return (
     <>
