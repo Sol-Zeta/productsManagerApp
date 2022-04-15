@@ -55,17 +55,13 @@ export const FormInput = ({
 
   return (
     <View style={[styles.container, containerStyle]}>
-      {/* <Image
-        source={icons[inputKey]}
-        style={[styles.icon, { tintColor: placeholderTextColor }]}
-      /> */}
       <Text>{`${label}:`}</Text>
       <TextInput
         value={value}
         editable={true}
         placeholder={placeholder}
         placeholderTextColor={placeholderTextColor}
-        secureTextEntry={['password', 'passwordConf', 'newPassword'].includes(
+        secureTextEntry={['name', 'description', 'price', 'SKU'].includes(
           inputKey
         )}
         style={[styles.input, inputStyle]}
