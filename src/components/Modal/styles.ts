@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
       ...flex.column_center,
       position: 'absolute',
       zIndex: 100,
-      backgroundColor: colors.alert,
+      backgroundColor: colors.greyTransparency,
       width: screenWidth,
       height: screenHeight
   },  
@@ -34,20 +34,23 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: colors.black,
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    marginBottom: margins.medium_margin
   },
   text:{
     fontSize: 16,
     fontWeight: '600',
-    color: colors.black,
+    color: colors.black
   },
   buttons_container: {
     ...flex.row_space_between,
     width: '80%',
-    marginTop: margins.small_margin,
+    marginTop: margins.xlarge_margin,
   },
   button_close: {
       position: 'relative',
+      right: -12,
+      top:-12
   },
   button_standard: {
     height: 40

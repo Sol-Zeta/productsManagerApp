@@ -35,7 +35,12 @@ export const Modal = ({
             <View style={styles.container}>
                 <View style={styles.header}>
                     {title && <Text style={styles.title}>{title}</Text>}
-                    <IconButton small icon={icons.close} onPress={() => setIsOpen(false)}/>
+                    <IconButton 
+                      small 
+                      icon={icons.close} 
+                      onPress={() => setIsOpen(false)}
+                      customStyle={styles.button_close}
+                    />
                 </View>
                 {text && <Text style={styles.text}>{text}</Text>}
                 {children}

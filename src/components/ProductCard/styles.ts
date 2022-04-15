@@ -29,6 +29,7 @@ export const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   text_container: {
+    position: 'relative',
     width: '70%',
     padding: '5%',
     borderTopRightRadius: 10,
@@ -49,4 +50,9 @@ export const styles = StyleSheet.create({
     width: '60%',
     marginTop: margins.small_margin,
   },
+  button_save: {
+    position: 'absolute',
+    top: '10%',
+    right: '5%'
+  }
 });
