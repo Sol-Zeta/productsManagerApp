@@ -14,6 +14,7 @@
     white: '#FFFFFF',
     whiteDark: '#EEEEEE',
     whiteTransparency: '#ffffffcc',
+    greyTransparency: '#111111cc',
     black: '#0A2329',
     totalBlack: '#000000'
   };
