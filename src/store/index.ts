@@ -3,7 +3,7 @@ import {requestOptions} from '../utils';
 import {IProduct} from '../interfaces';
 const baseUrl = process.env.BASE_API_URL || 'http://localhost:9000/products/';
 
-export const Store = () => {
+export const store = () => {
   const [products, setProducts] = useState<IProduct[] | []>([]);
   const [productById, setProductById] = useState<IProduct[] | []>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -66,7 +66,7 @@ export const Store = () => {
     }
   };
 
-  const createProduct = async (body: IProduct) => {
+  const createProduct = async (body: any) => {
     try {
       const response = await fetch(baseUrl,
         requestOptions('put', body),
@@ -91,6 +91,7 @@ export const Store = () => {
     productById,
     getProductsByPage,
     getProductById,
+    updateProductById,
     isLoading,
     deleteProduct,
     createProduct
