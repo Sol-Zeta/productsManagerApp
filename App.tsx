@@ -1,20 +1,15 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
 import 'react-native-gesture-handler';
 import React from 'react';
-import { MainNavigation } from './src/navigation'
+import { Provider } from 'react-redux';
+import {MainNavigation} from './src/navigation';
+import store from './src/redux/configureStore'
 
 const App: () => JSX.Element = () => {
-
   return (
-    <MainNavigation />
+    <Provider store={store}>
+      <MainNavigation />
+    </Provider>
   );
 };
-
 
 export default App;
