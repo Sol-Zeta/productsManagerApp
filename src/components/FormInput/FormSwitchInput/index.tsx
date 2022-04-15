@@ -10,7 +10,7 @@ interface Props {
   firstValue?: string;
   secondValue?: string;
   errorMessage?: string;
-  inputKey: string;
+  inputKey?: string;
   onChange: (value:boolean) => void;
 }
 
