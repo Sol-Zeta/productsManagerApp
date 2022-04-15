@@ -2,8 +2,7 @@ import React from 'react';
 import {ScrollView, View, Text, Image} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {MainNavigationParams} from '../../interfaces';
-import {ProductCard} from '../index';
-import {images} from '../../assetsRoutes';
+import {ProductCard} from '../ProductCard';
 import {IProduct} from '../../interfaces';
 
 interface Props {
