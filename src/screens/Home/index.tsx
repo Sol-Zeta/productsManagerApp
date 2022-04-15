@@ -14,7 +14,7 @@ import {CardList, MainBackground, Loader} from '../../components';
 
 export const Home = ({navigation}: StackScreenProps<MainNavigationParams>) => {
   
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
   
     if(isLoading){
         return <Loader text='Actualizando datos'/>
