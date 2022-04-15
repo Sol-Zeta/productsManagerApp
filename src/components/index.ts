@@ -1,8 +1,11 @@
+import {StandardButton, IconButton} from './Button';
 import {CardList} from './CardList';
-import {FormInput} from './FormInput';
+import {FormSwitchInput} from './FormInput/FormSwitchInput';
+import {FormTextArea} from './FormInput/FormTextArea';
+import {FormTextInput} from './FormInput/FormTextInput';
 import {Loader} from './Loader';
 import {MainBackground} from './MainBackground';
 import {Modal} from './Modal';
 import {ProductCard} from './ProductCard';
 
-export {CardList, FormInput, Loader, MainBackground, Modal, ProductCard};
+export {StandardButton, IconButton, CardList, FormTextInput, FormTextArea, FormSwitchInput, Loader, MainBackground, Modal, ProductCard};

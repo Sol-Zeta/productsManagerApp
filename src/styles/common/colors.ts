@@ -6,7 +6,7 @@
     secondaryDark: '#D08207',
     secondaryLight: '#F2CB8F',
     info: '#006BFF',
-    error: '#FF1400',
+    error: '#b2152f',
     alert: '#FFA800',
     check: '#00FF94',
     dark1: '#134221',
@@ -14,6 +14,7 @@
     white: '#FFFFFF',
     whiteDark: '#EEEEEE',
     whiteTransparency: '#ffffffcc',
+    whiteTransparencyLight: '#ffffff99',
     greyTransparency: '#111111cc',
     black: '#0A2329',
     totalBlack: '#000000'

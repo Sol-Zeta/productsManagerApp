@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     color: colors.black
   },
   secondary: {
-    backgroundColor: colors.secondaryLight,
+    backgroundColor: colors.secondaryDark,
   },
   secondary_pressed: {
     color: colors.secondaryDark
