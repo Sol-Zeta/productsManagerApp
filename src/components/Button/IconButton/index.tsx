@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableHighlight, Image, ImageSourcePropType} from 'react-native';
+import {TouchableHighlight, Image, ImageSourcePropType, StyleProp, ViewStyle} from 'react-native';
 import {colors} from '../../../styles/common';
 import {styles} from './styles';
 
@@ -9,9 +9,10 @@ interface Props {
   secondary?: boolean;
   small?: boolean;
   large?: boolean;
+  customStyle?: StyleProp<ViewStyle>
 }
 
-export const IconButton = ({icon, onPress, secondary, small, large}: Props) => {
+export const IconButton = ({icon, onPress, secondary, small, large, customStyle}: Props) => {
   return (
     <TouchableHighlight
       activeOpacity={1}
@@ -19,7 +20,8 @@ export const IconButton = ({icon, onPress, secondary, small, large}: Props) => {
       style={[
         styles.container,
         secondary && styles.secondary,
-        (small || large) && styles.container_transparent
+        (small || large) && styles.container_transparent,
+        customStyle
       ]}
       onPress={onPress}>
       <Image 
