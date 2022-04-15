@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   View,
@@ -10,10 +10,17 @@ import {
 import { StackScreenProps } from '@react-navigation/stack';
 import { MainNavigationParams } from '../../interfaces'
 
-import {CardList, MainBackground} from '../../components';
+import {CardList, MainBackground, Loader} from '../../components';
 
 export const Home = ({navigation}: StackScreenProps<MainNavigationParams>) => {
-  return (
+  
+    const [isLoading, setIsLoading] = useState(false)
+  
+    if(isLoading){
+        return <Loader text='Actualizando datos'/>
+    }
+  
+    return (
     <MainBackground>
       <SafeAreaView>
         <Text>HOME</Text>
