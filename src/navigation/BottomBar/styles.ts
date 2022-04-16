@@ -1,29 +1,22 @@
-import { StyleSheet } from 'react-native';
-import { colors, flex, fonts } from '../../styles/common';
+import {StyleSheet} from 'react-native';
+import {colors, flex, fonts, margins} from '../../styles/common';
 
 export const styles = StyleSheet.create({
   tab_container: {
-      ...flex.column_center,
-      width: '100%',
-      height: '100%',
-    backgroundColor: 'pink'
-  },
-  tab_container_focused: {
-    backgroundColor: 'red'
-  },
-  tab: {
-      backgroundColor: 'pink'
-  },
-  navigator: {
-    backgroundColor: colors.primary,
+    ...flex.column_center,
   },
   text: {
-      fontSize: fonts.small_text,
-      color: colors.whiteDark
+    fontSize: fonts.small_text,
+    color: colors.primaryDark,
   },
-  icon_container: {
+  text_focused: {
+    color: colors.secondaryDark,
   },
   icon: {
-      tintColor: colors.whiteDark
-  }
+    marginTop: margins.small_margin,
+    tintColor: colors.primaryDark,
+  },
+  icon_focused: {
+    tintColor: colors.secondaryDark,
+  },
 });

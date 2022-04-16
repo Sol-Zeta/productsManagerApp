@@ -7,7 +7,7 @@ import {
   StackNavigationOptions,
 } from '@react-navigation/stack';
 import {MainNavigationParams} from '../../interfaces';
-import {EditProduct, Home} from '../../screens';
+import {EditProduct, Home, ProductDetail} from '../../screens';
 import {icons} from '../../assetsRoutes';
 import {colors} from '../../styles/common';
 import {styles} from './styles';
@@ -40,10 +40,6 @@ export const BottomBar = ({
         defaultScreenOptions={{
           tabBarActiveTintColor: colors.white,
           tabBarInactiveTintColor: colors.whiteDark,
-          tabBarItemStyle: styles.tab,
-          tabBarStyle: styles.navigator,
-          tabBarShowLabel: false,
-          tabBarLabelStyle: {backgroundColor: 'red'}
         }}
         backBehavior="initialRoute"
         detachInactiveScreens={true}
@@ -63,21 +59,23 @@ export const BottomBar = ({
               text = 'Guardados';
             }
             return (
-              <View
-                style={[
-                  styles.tab_container,
-                  focused && styles.tab_container_focused,
-                ]}>
-                <View style={styles.icon_container}>
-                  <Image source={icons[iconName]} style={styles.icon} />
+              <View style={[styles.tab_container]}>
+                <View>
+                  <Image
+                    source={icons[iconName]}
+                    style={[styles.icon, focused && styles.icon_focused]}
+                  />
                 </View>
-                <Text adjustsFontSizeToFit style={styles.text}>
+                <Text
+                  adjustsFontSizeToFit
+                  style={[styles.text, focused && styles.text_focused]}>
                   {text}
                 </Text>
               </View>
             );
           },
           headerShown: false,
+          tabBarShowLabel: false,
         })}>
         <Tab.Screen
           name="home"
