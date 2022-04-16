@@ -3,19 +3,17 @@ import {Text, ScrollView, View} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {useForm, Controller} from 'react-hook-form';
 import {useSelector, useDispatch} from 'react-redux';
-import {
-  updateProductById,
-} from '../../redux/ducks/products';
+import {updateProductById, postProduct} from '../../redux/ducks/products';
 import {
   MainBackground,
   StandardButton,
   Modal,
   FormTextInput,
-  FormSwitchInput
+  FormSwitchInput,
 } from '../../components';
 import {MainNavigationParams, IProduct} from '../../interfaces';
-import { modalMessages } from '../../data/modalMessages';
-import { cleanData } from '../../utils';
+import {modalMessages} from '../../data/modalMessages';
+import {cleanData} from '../../utils';
 import {styles} from './styles';
 
 interface Params extends IProduct {
@@ -37,12 +35,14 @@ export const EditProduct = ({route, navigation}: Props) => {
   });
   const [formTitle, setFormTitle] = useState('');
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const [modalMessage, setModalMessage] = useState('')
-  const [isFormSaved, setIsFormSaved] = useState(true)
+  const [modalMessage, setModalMessage] = useState('');
+  const [isFormSaved, setIsFormSaved] = useState(false);
 
   const {_id, name, description, active, price, SKU, formType} = route.params;
 
-  const {products, updateSuccess} = useSelector((state: any) => state.products);
+  const {updateSuccess, postSuccess} = useSelector(
+    (state: any) => state.products,
+  );
   const dispatch = useDispatch();
 
   const {
@@ -61,44 +61,41 @@ export const EditProduct = ({route, navigation}: Props) => {
 
   const onSubmit = async (formData: any) => {
     try {
-      if(formType === "edit" && _id){
-      
-        const newFields = cleanData(route.params, {...formData, active: data.active})
-        if(Object.keys(newFields).length){
+      if (formType === 'edit' && _id) {
+        const newFields = cleanData(route.params, {
+          ...formData,
+          active: data.active,
+        });
+        if (Object.keys(newFields).length) {
           dispatch(updateProductById(_id, newFields));
-          if(updateSuccess){
-            setIsFormSaved(updateSuccess)
-            setModalMessage('cambios guardados con éxito');
-            setIsOpenModal(true);
-          }
         }
       } else {
-        setModalMessage('cambios guardados con éxito');
-        setIsOpenModal(true);
+        dispatch(postProduct({...formData, active: data.active}));
       }
     } catch (error) {
-      console.error("error enviado datos", error)
+      console.error('error enviado datos', error);
       setModalMessage(modalMessages.error_saving_changes);
       setIsOpenModal(true);
-      setIsFormSaved(false)
+      setIsFormSaved(false);
     }
   };
 
   const handleGoBack = () => {
-    if(isFormSaved) {
-      navigation.goBack()
+    if (isFormSaved) {
+      navigation.goBack();
     } else {
       setModalMessage(modalMessages.save_before_quit);
       setIsOpenModal(true);
     }
   };
 
-  const handleReset = () => reset({
-    name: name ?? '',
-    description: description ?? '',
-    price: price ?? 0,
-    SKU: SKU ?? '',
-  })
+  const handleReset = () =>
+    reset({
+      name: name ?? '',
+      description: description ?? '',
+      price: price ?? 0,
+      SKU: SKU ?? '',
+    });
 
   useEffect(() => {
     if (formType !== 'edit') {
@@ -117,10 +114,21 @@ export const EditProduct = ({route, navigation}: Props) => {
   }, [formType]);
 
   useEffect(() => {
-    console.log("active", data)
-  }, [data])
-  
-  
+    if(isFormSaved){
+      if (updateSuccess) {
+        setIsFormSaved(updateSuccess);
+        setModalMessage('cambios guardados con éxito');
+        setIsOpenModal(true);
+      }
+      if (postSuccess) {
+        setIsFormSaved(postSuccess)
+        setModalMessage(
+          'Tu nuevo producto ha sido ingresado a la base de datos correctamente',
+        );
+        setIsOpenModal(true);
+      }
+    }
+  }, [updateSuccess, postSuccess]);
 
   return (
     <>
@@ -132,7 +140,7 @@ export const EditProduct = ({route, navigation}: Props) => {
               control={control}
               rules={{
                 required: true,
-                maxLength: 30
+                maxLength: 30,
               }}
               name="name"
               render={({field: {onChange, onBlur, value}}) => (
@@ -156,7 +164,7 @@ export const EditProduct = ({route, navigation}: Props) => {
               control={control}
               rules={{
                 required: true,
-                maxLength: 150
+                maxLength: 150,
               }}
               name="description"
               render={({field: {onChange, onBlur, value}}) => (
@@ -200,11 +208,11 @@ export const EditProduct = ({route, navigation}: Props) => {
           </View>
           <View style={styles.input_container}>
             <FormSwitchInput
-                value={data.active}
-                firstValue={'inactivo'}
-                secondValue={'activo'}
-                inputKey={'active'}
-                onChange={(value) => setData({...data, active: value})}
+              value={data.active}
+              firstValue={'oculto'}
+              secondValue={'activo'}
+              inputKey={'active'}
+              onChange={value => setData({...data, active: value})}
             />
           </View>
           <View style={styles.input_container}>
@@ -246,7 +254,7 @@ export const EditProduct = ({route, navigation}: Props) => {
           </View>
           {formType !== 'new' && (
             <View style={styles.single_button_container}>
-              <StandardButton 
+              <StandardButton
                 text={'Resetear formulario'}
                 onPress={handleReset}
                 customStyle={styles.button_reset}
@@ -260,10 +268,20 @@ export const EditProduct = ({route, navigation}: Props) => {
         text={modalMessage}
         openModal={isOpenModal}
         onClose={() => setIsOpenModal(false)}
-        primaryButton={!isFormSaved ? 'Volver al formulario' : 'Ver producto'}
-        primaryOnPress={!isFormSaved ? () => setIsOpenModal(false) : () => navigation.goBack()}
-        secondaryButton={!isFormSaved ? 'Salir sin guardar' : 'Volver al listado'}
-        secondaryOnPress={!isFormSaved ? () => navigation.goBack() : () => navigation.navigate('home')}
+        primaryButton={!isFormSaved ? 'Volver al formulario' : undefined}
+        primaryOnPress={
+          !isFormSaved
+            ? () => setIsOpenModal(false)
+            : undefined
+        }
+        secondaryButton={
+          !isFormSaved ? 'Salir sin guardar' : 'Volver al listado'
+        }
+        secondaryOnPress={
+          !isFormSaved
+            ? () => navigation.goBack()
+            : () => navigation.navigate('home')
+        }
       />
     </>
   );

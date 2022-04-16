@@ -18,6 +18,7 @@ import {styles} from './styles';
 
 export const Home = ({navigation}: StackScreenProps<MainNavigationParams>) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [allProducts, setAllProducts] = useState([])
   const [activeProducts, setActiveProducts] = useState(true);
   const [page, setPage] = useState(0);
   const [pageLimit, setPageLimit] = useState(0);
@@ -25,12 +26,9 @@ export const Home = ({navigation}: StackScreenProps<MainNavigationParams>) => {
   const {products} = useSelector((state: any) => state.products);
   const dispatch = useDispatch();
 
-  console.log('productos ----->', products)
-
   const productsPerPage = 3;
 
   const handlePage = (page: number) => {
-    console.log(page);
     if (page <= pageLimit) {
       setPage(page);
     }
@@ -42,17 +40,21 @@ export const Home = ({navigation}: StackScreenProps<MainNavigationParams>) => {
   }, [page]);
 
   useEffect(() => {
-    // setIsLoading(true);
+    //setIsLoading(true);
     dispatch(getProductsByPage(page, productsPerPage, activeProducts));
   }, [activeProducts])
   
 
   useEffect(() => {
-    setIsLoading(false);
-    if (products) {
+    setIsLoading(true);
+    if (products && products.data) {
       const limit = calculatePages(products.data.totalCount, productsPerPage);
-      console.log(limit, page, pageLimit);
       setPageLimit(limit);
+      setAllProducts([])
+      setAllProducts(products.data.list)
+      setIsLoading(false);
+    } else {
+      setAllProducts([])
     }
   }, [products]);
 
@@ -76,7 +78,7 @@ export const Home = ({navigation}: StackScreenProps<MainNavigationParams>) => {
           navigation={navigation}
           direction="horizontal"
           title="Todos los productos"
-          list={products ? products.data.list : []}
+          list={allProducts}
         />
         <View style={styles.pagination_container}>
           <Pagination limit={pageLimit} value={page} getPage={handlePage} />

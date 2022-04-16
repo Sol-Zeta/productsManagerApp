@@ -47,7 +47,6 @@ export const ProductDetail = ({route, navigation}: Props) => {
   }, []);
 
   useEffect(() => {
-    console.log("********** product detail", productDetail)
     if(productDetail){
       setIsLoading(false)
       setItemData(productDetail.data)
