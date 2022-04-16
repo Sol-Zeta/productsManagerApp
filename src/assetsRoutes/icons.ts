@@ -9,5 +9,9 @@ export const icons = {
     refresh: require('../assets/icons/refresh.png'),
     search: require('../assets/icons/search.png'),
     share: require('../assets/icons/share.png'),
-    unmarked: require('../assets/icons/unmarked.png')
+    unmarked: require('../assets/icons/unmarked.png'),
+    home: require('../assets/icons/search.png'),
+    new: require('../assets/icons/add.png'),
+    favourites: require('../assets/icons/unmarked.png'),
+
 }

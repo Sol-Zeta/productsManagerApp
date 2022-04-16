@@ -7,4 +7,5 @@ export const images = {
     tomato: require('../assets/images/products/tomato.png'),
     cucumber: require('../assets/images/products/cucumber.png'),
     potato: require('../assets/images/products/potato.png'),
+    all_products: require('../assets/images/all-products.png'),
 }
