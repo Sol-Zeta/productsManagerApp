@@ -1,9 +1,9 @@
 import React from 'react';
-import {ScrollView, View, Text, Image} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
-import {MainNavigationParams} from '../../interfaces';
+import {MainNavigationParams, IProduct} from '../../interfaces';
 import {ProductCard} from '../ProductCard';
-import {IProduct} from '../../interfaces';
+import {images} from '../../assetsRoutes';
 import { styles } from './styles';
 
 interface Props {
@@ -26,9 +26,21 @@ export const CardList = ({
 
   return (
     <View>
-      <ScrollView contentContainerStyle={styles.cards_container}>
-        {renderCards()}
-      </ScrollView>
+      <View style={styles.cards_container}>
+        { list.length ? (
+          renderCards()
+        ) : (
+          <View style={styles.message_container}>
+            <Image 
+              source={images.all_products}
+              style={styles.image}
+            />
+            <Text style={styles.symbol}>?</Text>
+            <Text style={styles.text}>No se han encontrado productos</Text>
+            <Text style={styles.text}>Intenta con una nueva búsqueda</Text>
+          </View>
+        )}
+      </View>
     </View>
   );
 };
