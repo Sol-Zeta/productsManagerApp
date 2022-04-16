@@ -6,7 +6,9 @@ import {IProduct} from '../../interfaces'
 export const SET_ALL_PRODUCTS = 'setAllProducts';
 export const GET_ALL_PRODUCTS = 'getAllProducts';
 export const GET_PRODUCTS_BY_PAGE = 'getProductsByPage';
+export const SET_PRODUCT_DETAIL = 'setProductDetail';
 export const GET_PRODUCT_BY_ID = 'getProductById';
+export const SET_UPDATE_SUCCESS = 'setUpdateSuccess';
 export const UPDATE_PRODUCT_BY_ID = 'updateProductById';
 export const POST_PRODUCT = 'postProduct';
 export const DELETE_PRODUCT = 'deleteProduct';
@@ -21,8 +23,10 @@ export const setAllProducts = (products:any) => {
 }
 export const getAllProducts = () => ({ type: GET_ALL_PRODUCTS})
 export const getProductsByPage = (page: number, quantity: number, active: boolean) => ({ type: GET_PRODUCTS_BY_PAGE, page, quantity, active})
-export const getProductById = { type: GET_PRODUCT_BY_ID}
-export const updateProductById = { type: UPDATE_PRODUCT_BY_ID}
+export const setProductDetail = (productDetail: any) => ({ type: SET_PRODUCT_DETAIL, productDetail})
+export const getProductById = (id: string) => ({ type: GET_PRODUCT_BY_ID, id})
+export const setUpdateSuccess = (updateSuccess: boolean) => ({ type: SET_UPDATE_SUCCESS, updateSuccess})
+export const updateProductById = (id: string, body: any) => ({ type: UPDATE_PRODUCT_BY_ID, id, body})
 export const postProduct = { type: POST_PRODUCT}
 export const deleteProduct = { type: DELETE_PRODUCT}
 
@@ -37,11 +41,11 @@ interface IInitialState {
 const initialState = {
     products: [],
     productDetail: undefined,
-    favouriteProducts: []
+    favouriteProducts: [],
+    updateSuccess: false
 }
 
 export default (state:IInitialState = initialState, action:any) => {
-    console.log("4. useSelector")
     switch (action.type) {
         case SET_ALL_PRODUCTS: 
             console.log("SET_ALL_PRODUCTS")        
@@ -51,11 +55,13 @@ export default (state:IInitialState = initialState, action:any) => {
             return { ...state, products: action.products, saludo: 'CHAU'};
         case GET_PRODUCTS_BY_PAGE:
             return { success: true};
-        case GET_PRODUCT_BY_ID:
-            
+        case SET_PRODUCT_DETAIL:
+            console.log("3.SET_PRODUCT_DETAIL") 
+            return { ...state, productDetail: action.productDetail};
         return;
-        case UPDATE_PRODUCT_BY_ID:
-            
+        case SET_UPDATE_SUCCESS:
+            console.log("3.SET_UPDATE_SUCCESS") 
+            return { ...state, updateSuccess: action.updateSuccess};
         return;
         case POST_PRODUCT:
             

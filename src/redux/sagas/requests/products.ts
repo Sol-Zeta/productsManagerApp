@@ -22,7 +22,7 @@ export const requestGetProductsByPage = async (page:number, quantity: number, ac
         return {success: false};
     }
 }
-export const requestGetProductById = async (id:string) => {
+export const requestGetProductById = async ({id}: {id: string}) => {
     try {
         const { data } = await axios.get(`${baseUrl}/${id}`)
         console.log("1. AXIOS RESPONSE:", data)
@@ -32,10 +32,9 @@ export const requestGetProductById = async (id:string) => {
         return {success: false};
     }
 }
-export const requestPutProductById = async (id:string, body: any) => {
+export const requestPutProductById = async ({id, body}: {id: string, body: any}) => {
     try {
         const { data } = await axios.put(`${baseUrl}/${id}`, body)
-        console.log("1. AXIOS RESPONSE:", data)
         return {success: true, data};
     } catch (error) {
         console.error("1. AXIOS ERROR", error)
@@ -46,7 +45,9 @@ export const requestDeleteProductById = async (id:string) => {
     try {
         const { data } = await axios.delete(`${baseUrl}/${id}`)
         console.log("1. AXIOS RESPONSE:", data)
-        return {success: true, data};
+        if(data._id && data._id === id){
+            return {success: true, data};
+        }
     } catch (error) {
         console.error("1. AXIOS ERROR", error)
         return {success: false};
