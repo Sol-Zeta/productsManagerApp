@@ -1,4 +1,10 @@
 {
   "name": "productsManagerApp",
-  "displayName": "productsManagerApp"
+  "displayName": "productsManagerApp",
+  "android": {
+    "adaptiveIcon": {
+      "foregroundImage": "./assets/images/icon.png",
+      "backgroundColor": "#ffffff"
+    }
+  }
 }
