@@ -17,13 +17,6 @@ export const styles = StyleSheet.create({
   },
   title: {
     ...fonts.main_title
-    // color: colors.white,
-    // fontSize: fonts.large_text,
-    // fontFamily: 'Gill Sans',
-    // textTransform: 'uppercase',
-    // letterSpacing: 3,
-    // fontWeight: '600',
-    // marginBottom: 20,
   },
   input_container: {
     width: '100%',
@@ -36,8 +29,7 @@ export const styles = StyleSheet.create({
   },
   buttons_container: {
     ...flex.row_space_between,
-    width: '100%',
-    marginTop: margins.xlarge_margin,
+    width: '100%'
   },
   button_standard: {
     width: '45%'

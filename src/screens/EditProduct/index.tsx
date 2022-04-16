@@ -1,7 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {Text, ScrollView, View, Button, Alert} from 'react-native';
-import {useForm, Controller} from 'react-hook-form';
+import {Text, ScrollView, View} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
+import {useForm, Controller} from 'react-hook-form';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  updateProductById,
+} from '../../redux/ducks/products';
 import {
   MainBackground,
   StandardButton,
@@ -36,7 +40,10 @@ export const EditProduct = ({route, navigation}: Props) => {
   const [modalMessage, setModalMessage] = useState('')
   const [isFormSaved, setIsFormSaved] = useState(true)
 
-  const {name, description, active, price, SKU, formType} = route.params;
+  const {_id, name, description, active, price, SKU, formType} = route.params;
+
+  const {products, updateSuccess} = useSelector((state: any) => state.products);
+  const dispatch = useDispatch();
 
   const {
     control,
@@ -53,34 +60,37 @@ export const EditProduct = ({route, navigation}: Props) => {
   });
 
   const onSubmit = async (formData: any) => {
-    // try {
-    //   if(formType === "new"){
-    //     const createdProduct = await store().createProduct({...formData, active: data.active})
-    //     setIsFormSaved(createdProduct.success)
-    //     setModalMessage('cambios guardados con éxito');
-    //     setIsOpenModal(true);
-    //   } else if(route.params._id){
-    //     const newFields = cleanData(route.params, {...formData, active: data.active})
-    //     if(Object.keys(newFields).length){
-    //       const createdProduct = await store().updateProductById(route.params._id, newFields)
-    //       setIsFormSaved(createdProduct.success)
-    //     } else {
-    //       setIsFormSaved(true)
-    //     }
-    //   }
-    //   console.log(formData);
+    try {
+      if(formType === "edit" && _id){
       
-    // } catch (error) {
-    //   console.error("error enviado datos", error)
-    //   setModalMessage(modalMessages.error_saving_changes);
-    //   setIsOpenModal(true);
-    //   setIsFormSaved(false)
-    // }
+        const newFields = cleanData(route.params, {...formData, active: data.active})
+        if(Object.keys(newFields).length){
+          dispatch(updateProductById(_id, newFields));
+          if(updateSuccess){
+            setIsFormSaved(updateSuccess)
+            setModalMessage('cambios guardados con éxito');
+            setIsOpenModal(true);
+          }
+        }
+      } else {
+        setModalMessage('cambios guardados con éxito');
+        setIsOpenModal(true);
+      }
+    } catch (error) {
+      console.error("error enviado datos", error)
+      setModalMessage(modalMessages.error_saving_changes);
+      setIsOpenModal(true);
+      setIsFormSaved(false)
+    }
   };
 
   const handleGoBack = () => {
-    setModalMessage(modalMessages.save_before_quit);
-    setIsOpenModal(true);
+    if(isFormSaved) {
+      navigation.goBack()
+    } else {
+      setModalMessage(modalMessages.save_before_quit);
+      setIsOpenModal(true);
+    }
   };
 
   const handleReset = () => reset({
@@ -91,7 +101,7 @@ export const EditProduct = ({route, navigation}: Props) => {
   })
 
   useEffect(() => {
-    if (formType === 'new') {
+    if (formType !== 'edit') {
       setData({
         name: '',
         description: '',
@@ -250,10 +260,10 @@ export const EditProduct = ({route, navigation}: Props) => {
         text={modalMessage}
         openModal={isOpenModal}
         onClose={() => setIsOpenModal(false)}
-        primaryButton={'Volver al formulario'}
-        primaryOnPress={() => {setIsOpenModal(false); console.log(isOpenModal)}}
-        secondaryButton={'Salir sin guardar'}
-        secondaryOnPress={() => navigation.goBack()}
+        primaryButton={!isFormSaved ? 'Volver al formulario' : 'Ver producto'}
+        primaryOnPress={!isFormSaved ? () => setIsOpenModal(false) : () => navigation.goBack()}
+        secondaryButton={!isFormSaved ? 'Salir sin guardar' : 'Volver al listado'}
+        secondaryOnPress={!isFormSaved ? () => navigation.goBack() : () => navigation.navigate('home')}
       />
     </>
   );

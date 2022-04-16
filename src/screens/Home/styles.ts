@@ -13,8 +13,11 @@ export const styles = StyleSheet.create({
     ...fonts.main_title,
     marginTop: margins.large_margin
   },
+  switch_container: {
+    marginBottom: margins.small_margin
+  },
   pagination_container: {
-    backgroundColor: 'red',
     width: '90%'
-  }
+  },
+
 });

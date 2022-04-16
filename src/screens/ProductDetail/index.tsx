@@ -1,21 +1,22 @@
 import React, {useState, useEffect} from 'react';
 import {
-  SafeAreaView,
   ScrollView,
   View,
   Text,
   Image,
-  Dimensions,
   PixelRatio,
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  getProductById,
+} from '../../redux/ducks/products';
 import {MainNavigationParams} from '../../interfaces';
-import {MainBackground} from '../../components';
-import {styles} from './styles';
-import {icons} from '../../assetsRoutes';
-import {IconButton, StandardButton} from '../../components/Button';
-import {Modal} from '../../components';
+import {Modal, MainBackground, IconButton, StandardButton, Loader} from '../../components';
 import {findImageByName} from '../../utils';
+import {icons} from '../../assetsRoutes';
+import {styles} from './styles';
 
 interface Props {
   route: {params: {itemId: string}};
@@ -25,42 +26,50 @@ interface Props {
 export const ProductDetail = ({route, navigation}: Props) => {
   const [itemData, setItemData] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(true);
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [isOnBlur, setIsOnBlur] = useState(true)
 
-  const ratio = PixelRatio.getFontScale();
-  console.log('ratio', ratio);
   const {itemId} = route.params;
 
-  const getItemData = async () => {
-    console.log('getItemData');
-    try {
-      const response = await fetch(`http://localhost:9000/products/${itemId}`);
-      const data = await response.json();
-      console.log('data', data);
-      return data;
-    } catch (error) {
-      console.error('cannot fetch data');
-    }
-  };
+  const {productDetail} = useSelector((state: any) => state.products);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    getItemData()
-      .then(data => setItemData(data))
-      .then(() => setIsLoading(false))
-      .catch(error => console.error(error));
+    if(!isOnBlur){
+      setIsLoading(true);
+      dispatch(getProductById(itemId));
+    }
+  }, [isOnBlur]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    dispatch(getProductById(itemId));
   }, []);
 
+  useEffect(() => {
+    console.log("********** product detail", productDetail)
+    if(productDetail){
+      setIsLoading(false)
+      setItemData(productDetail.data)
+    }
+  }, [productDetail])
+
+  useFocusEffect(() => {
+    setIsOnBlur(false)
+    return () => {
+      setIsOnBlur(true)
+    }
+  });
+  
+
   const handleEdit = () => {
-    navigation.navigate('editProduct', itemData);
+    navigation.navigate('editProduct', {...itemData, formType: 'edit'});
   };
 
   const handleGoBack = () => navigation.navigate('home');
 
   if (isLoading && !itemData) {
-    return (
-      <View>
-        <Text>ESPERANDO DATOS DEL SERVIDOR...</Text>
-      </View>
-    );
+    return ( <Loader />);
   } else {
     return (
       <>
@@ -106,7 +115,6 @@ export const ProductDetail = ({route, navigation}: Props) => {
                     </Text>
                   </View>
                   <View style={styles.buttons_container}>
-                    {/* <IconButton icon={icons.unmarked} onPress={handleEdit} /> */}
                     <IconButton icon={icons.edit} onPress={handleEdit} />
                     <IconButton icon={icons.share} onPress={handleEdit} />
                   </View>
