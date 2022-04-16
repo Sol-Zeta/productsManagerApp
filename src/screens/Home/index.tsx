@@ -7,10 +7,16 @@ import {
   getProductsByPage,
 } from '../../redux/ducks/products';
 import {StackScreenProps} from '@react-navigation/stack';
-import {CardList, MainBackground, Loader, FormSwitchInput, Pagination} from '../../components';
+import {
+  CardList,
+  MainBackground,
+  Loader,
+  FormSwitchInput,
+  Pagination,
+} from '../../components';
 import {MainNavigationParams} from '../../interfaces';
 import {calculatePages} from '../../utils';
-import { Switch } from 'react-native-gesture-handler';
+import {styles} from './styles';
 
 export const Home = ({navigation}: StackScreenProps<MainNavigationParams>) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,22 +29,22 @@ export const Home = ({navigation}: StackScreenProps<MainNavigationParams>) => {
 
   const productsPerPage = 3;
 
-  const handlePage = (page:number) => {
-      console.log(page)
-      if(page < pageLimit+1){
-          setPage(page)
-      }
-    };
+  const handlePage = (page: number) => {
+    console.log(page);
+    if (page < pageLimit + 1) {
+      setPage(page);
+    }
+  };
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     dispatch(getProductsByPage(page, productsPerPage, activeProducts));
   }, [page, activeProducts]);
 
   useEffect(() => {
     if (products) {
       const limit = calculatePages(products.data.totalCount, productsPerPage);
-      console.log(limit, page, pageLimit)
+      console.log(limit, page, pageLimit);
       setPageLimit(limit);
       setIsLoading(false);
     }
@@ -50,26 +56,22 @@ export const Home = ({navigation}: StackScreenProps<MainNavigationParams>) => {
 
   return (
     <MainBackground>
-      <SafeAreaView>
-        <Text>HOME</Text>
-        <View>
-            <FormSwitchInput
-                value={activeProducts} 
-                firstValue={'Productos activos'}
-                secondValue={'Productos ocultos'}
-                onChange={(value)=> setActiveProducts(value)}
-            />
-        </View>
-        <View>
-          <View>
-            <CardList
-              navigation={navigation}
-              direction="horizontal"
-              title="Todos los productos"
-              list={products ? products.data.list : []}
-            />
-          </View>
-        <Pagination limit={pageLimit} value={page} getPage={handlePage} />
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.title}>TUS PRODUCTOS</Text>
+        <FormSwitchInput
+          value={activeProducts}
+          firstValue={'ocultos'}
+          secondValue={'activos'}
+          onChange={value => setActiveProducts(value)}
+        />
+        {/* <CardList
+          navigation={navigation}
+          direction="horizontal"
+          title="Todos los productos"
+          list={products ? products.data.list : []}
+        /> */}
+        <View style={styles.pagination_container}>
+          <Pagination limit={pageLimit} value={page} getPage={handlePage} />
         </View>
       </SafeAreaView>
     </MainBackground>

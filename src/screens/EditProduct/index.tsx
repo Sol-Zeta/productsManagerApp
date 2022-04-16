@@ -12,7 +12,6 @@ import {
 import {MainNavigationParams, IProduct} from '../../interfaces';
 import { modalMessages } from '../../data/modalMessages';
 import { cleanData } from '../../utils';
-import { store } from '../../store';
 import {styles} from './styles';
 
 interface Params extends IProduct {
@@ -54,29 +53,29 @@ export const EditProduct = ({route, navigation}: Props) => {
   });
 
   const onSubmit = async (formData: any) => {
-    try {
-      if(formType === "new"){
-        const createdProduct = await store().createProduct({...formData, active: data.active})
-        setIsFormSaved(createdProduct.success)
-        setModalMessage('cambios guardados con éxito');
-        setIsOpenModal(true);
-      } else if(route.params._id){
-        const newFields = cleanData(route.params, {...formData, active: data.active})
-        if(Object.keys(newFields).length){
-          const createdProduct = await store().updateProductById(route.params._id, newFields)
-          setIsFormSaved(createdProduct.success)
-        } else {
-          setIsFormSaved(true)
-        }
-      }
-      console.log(formData);
+    // try {
+    //   if(formType === "new"){
+    //     const createdProduct = await store().createProduct({...formData, active: data.active})
+    //     setIsFormSaved(createdProduct.success)
+    //     setModalMessage('cambios guardados con éxito');
+    //     setIsOpenModal(true);
+    //   } else if(route.params._id){
+    //     const newFields = cleanData(route.params, {...formData, active: data.active})
+    //     if(Object.keys(newFields).length){
+    //       const createdProduct = await store().updateProductById(route.params._id, newFields)
+    //       setIsFormSaved(createdProduct.success)
+    //     } else {
+    //       setIsFormSaved(true)
+    //     }
+    //   }
+    //   console.log(formData);
       
-    } catch (error) {
-      console.error("error enviado datos", error)
-      setModalMessage(modalMessages.error_saving_changes);
-      setIsOpenModal(true);
-      setIsFormSaved(false)
-    }
+    // } catch (error) {
+    //   console.error("error enviado datos", error)
+    //   setModalMessage(modalMessages.error_saving_changes);
+    //   setIsOpenModal(true);
+    //   setIsFormSaved(false)
+    // }
   };
 
   const handleGoBack = () => {

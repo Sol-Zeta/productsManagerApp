@@ -4,15 +4,13 @@ export const styles = StyleSheet.create({
   card: {
     ...flex.column_space_evenly,
     ...shadows.primary,
-    marginBottom: margins.medium_margin,
-    marginHorizontal: margins.medium_margin,
-
+    width: '100%',
+    
     backgroundColor: colors.whiteDark,
     borderRadius: 10,
   },
   container: {
-    ...flex.row_space_between,
-    width: '100%',
+    ...flex.row_space_between
   },
   image_container: {
     ...flex.column_center,

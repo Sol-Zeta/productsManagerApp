@@ -6,25 +6,28 @@ const {height: screenHeight, width: screenWidth} = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
   container: {
-      ...flex.row_space_between,
-    width: '100%',
+       ...flex.row_space_between, 
+      width: '100%'
   },
   button_container: {
       ...flex.row_space_between,
       alignItems: 'center',
-      padding: '5%',
-      color: 'red'
-  },
-  button_disabled: {
-      backgroundColor: colors.neutral
+      paddingHorizontal: 10, 
+      paddingVertical: '7%'
   },
   icon: {
       tintColor: colors.whiteDark
-  },
-  text: {
-      fontSize: fonts.medium_text,
-      textTransform: 'uppercase',
-      fontWeight: '600',
-      color: colors.whiteDark
-  }
+    },
+    icon_disabled: {
+        tintColor: colors.neutral
+    },
+    text: {
+        fontSize: fonts.medium_text,
+        textTransform: 'uppercase',
+        fontWeight: '600',
+        color: colors.whiteDark
+    },
+    text_disabled: {
+        color: colors.neutral
+    },
 });

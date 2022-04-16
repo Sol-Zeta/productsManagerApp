@@ -16,13 +16,14 @@ export const styles = StyleSheet.create({
     width: '100%',
   },
   title: {
-    color: colors.white,
-    fontSize: fonts.large_text,
-    fontFamily: 'Gill Sans',
-    textTransform: 'uppercase',
-    letterSpacing: 3,
-    fontWeight: '600',
-    marginBottom: 20,
+    ...fonts.main_title
+    // color: colors.white,
+    // fontSize: fonts.large_text,
+    // fontFamily: 'Gill Sans',
+    // textTransform: 'uppercase',
+    // letterSpacing: 3,
+    // fontWeight: '600',
+    // marginBottom: 20,
   },
   input_container: {
     width: '100%',

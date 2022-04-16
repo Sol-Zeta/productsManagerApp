@@ -1,6 +1,8 @@
 import {IProduct} from '../../interfaces'
 
 // *** ACTIONS *** //
+// TODO: handle api error
+// export const HANDLE_API_ERROR = 'handleApiError';
 export const SET_ALL_PRODUCTS = 'setAllProducts';
 export const GET_ALL_PRODUCTS = 'getAllProducts';
 export const GET_PRODUCTS_BY_PAGE = 'getProductsByPage';
@@ -9,7 +11,7 @@ export const UPDATE_PRODUCT_BY_ID = 'updateProductById';
 export const POST_PRODUCT = 'postProduct';
 export const DELETE_PRODUCT = 'deleteProduct';
 
-// export const getAllProducts = () => ({ type: GET_ALL_PRODUCTS})
+// export const handleApiError = () => ({ type: HANDLE_API_ERROR})
 export const setAllProducts = (products:any) => {
     console.log('3. ducks', products)
     return { 

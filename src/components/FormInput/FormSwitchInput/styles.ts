@@ -13,8 +13,8 @@ export const styles = StyleSheet.create({
         color: colors.whiteDark 
     },
     switch_container: {
-        ...flex.row_space_between,
+        ...flex.row_space_evenly,
         alignItems: 'center',
-        width: '50%'
+        width: '100%'
     }
 });

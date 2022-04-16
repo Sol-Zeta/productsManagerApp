@@ -34,7 +34,6 @@ export const FormSwitchInput = ({
   
 
   return (
-    <View style={styles.container}>
     <View style={styles.switch_container}>
       <Switch
         color={colors.primaryDark}
@@ -44,7 +43,5 @@ export const FormSwitchInput = ({
       />
       {(firstValue || secondValue) && <Text style={styles.text}>{inputValue ? secondValue : firstValue}</Text>}
     </View>    
-      {errorMessage && <Text>{errorMessage}</Text>}
-    </View>
   );
 };

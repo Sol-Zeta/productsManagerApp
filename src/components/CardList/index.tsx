@@ -4,6 +4,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {MainNavigationParams} from '../../interfaces';
 import {ProductCard} from '../ProductCard';
 import {IProduct} from '../../interfaces';
+import { styles } from './styles';
 
 interface Props {
   direction?: 'horizontal' | 'vertical';
@@ -25,8 +26,9 @@ export const CardList = ({
 
   return (
     <View>
-      <Text>{title}</Text>
-      <ScrollView>{renderCards()}</ScrollView>
+      <ScrollView contentContainerStyle={styles.cards_container}>
+        {renderCards()}
+      </ScrollView>
     </View>
   );
 };
