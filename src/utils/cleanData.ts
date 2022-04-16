@@ -7,6 +7,6 @@ export const cleanData = (originalData: any, newData: any) => {
       if(newData[key] !== originalData[key] && key !== 'price') cleanedData[key] = newData[key]
     }
   }
-  console.log(cleanedData)
+  console.log("cleanedData", cleanedData)
   return cleanedData;
 };
