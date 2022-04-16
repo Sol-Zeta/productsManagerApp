@@ -45,8 +45,8 @@ export const styles = StyleSheet.create({
   },
   buttons_container: {
     ...flex.row_space_between,
-    width: '60%',
-    marginTop: margins.small_margin,
+    width: '40%',
+    marginTop: margins.small_margin
   },
   button_save: {
     position: 'absolute',
