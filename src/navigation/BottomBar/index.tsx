@@ -7,22 +7,21 @@ import {
   StackNavigationOptions,
 } from '@react-navigation/stack';
 import {MainNavigationParams} from '../../interfaces';
-import {EditProduct, Home, ProductDetail} from '../../screens';
+import {EditProduct, Home} from '../../screens';
 import {icons} from '../../assetsRoutes';
 import {colors} from '../../styles/common';
 import {styles} from './styles';
 
 export type TabMenuParams = {
-  tabBarOptions: any;
   home: {itemId: string};
   new: {itemId: string; formType: string};
-  favourites: {itemId: string};
+  // favourites: {itemId: string};
 };
 
 type IIcons = {
   home: 'home';
   new: 'new';
-  favourites: 'favourites';
+  // favourites: 'favourites';
 };
 
 export type tabMenuKeys = keyof TabMenuParams;
@@ -54,10 +53,11 @@ export const BottomBar = ({
             } else if (route.name === 'new') {
               iconName = 'new';
               text = 'Crear Producto';
-            } else if (route.name === 'favourites') {
-              iconName = 'favourites';
-              text = 'Guardados';
             }
+            // else if (route.name === 'favourites') {
+            //   iconName = 'favourites';
+            //   text = 'Guardados';
+            // }
             return (
               <View style={[styles.tab_container]}>
                 <View>
@@ -89,12 +89,12 @@ export const BottomBar = ({
           initialParams={{itemId: 'new'}}
           options={{unmountOnBlur: true}}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="favourites"
           component={Home}
           initialParams={{itemId: 'favourites'}}
           options={{unmountOnBlur: true}}
-        />
+        /> */}
       </Tab.Navigator>
     </>
   );

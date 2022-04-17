@@ -1,6 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import {IconButton, StandardButton} from '../Button';
 import {icons} from '../../assetsRoutes';
 import {styles} from './styles';
 
@@ -11,10 +10,6 @@ interface Props {
 }
 
 export const Pagination = ({limit, value, getPage}: Props) => {
-  useEffect(() => {
-    console.log('pag', value, limit);
-  }, [value, limit]);
-
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -37,7 +32,10 @@ export const Pagination = ({limit, value, getPage}: Props) => {
           <Text style={[styles.text, value === limit && styles.text_disabled]}>
             Siguiente
           </Text>
-          <Image source={icons.forward} style={value === limit ? styles.icon_disabled : styles.icon} />
+          <Image
+            source={icons.forward}
+            style={value === limit ? styles.icon_disabled : styles.icon}
+          />
         </View>
       </TouchableOpacity>
     </View>

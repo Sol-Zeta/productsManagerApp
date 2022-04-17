@@ -4,14 +4,8 @@ import {
   useNavigationContainerRef,
 } from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {
-  Home,
-  Onboarding,
-  EditProduct,
-  ProductDetail,
-  Splash,
-} from '../../screens';
-import { BottomBar } from '../BottomBar';
+import {Home, EditProduct, ProductDetail} from '../../screens';
+import {BottomBar} from '../BottomBar';
 
 const MainNavigation: () => JSX.Element = () => {
   const Stack = createStackNavigator();
@@ -19,18 +13,16 @@ const MainNavigation: () => JSX.Element = () => {
   return (
     <NavigationContainer ref={navigationRef} independent={true}>
       <Stack.Navigator
-        initialRouteName='navigation'
+        initialRouteName="navigation"
         screenOptions={{
           animationEnabled: true,
           gestureEnabled: false,
           headerShown: false,
         }}>
-        <Stack.Screen name='productDetail' component={ProductDetail} />
-        <Stack.Screen name='editProduct' component={EditProduct} />
-        <Stack.Screen name='splash' component={Splash} />
-        <Stack.Screen name='onboarding' component={Onboarding} />
-        <Stack.Screen name='home' component={Home} />
-        <Stack.Screen name='navigation' component={BottomBar} />
+        <Stack.Screen name="productDetail" component={ProductDetail} />
+        <Stack.Screen name="editProduct" component={EditProduct} />
+        <Stack.Screen name="home" component={Home} />
+        <Stack.Screen name="navigation" component={BottomBar} />
       </Stack.Navigator>
     </NavigationContainer>
   );

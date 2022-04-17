@@ -15,12 +15,10 @@ interface Props {
 }
 
 export const FormSwitchInput = ({
-  inputKey,
   onChange,
   value,
   firstValue,
   secondValue,
-  errorMessage,
 }: Props) => {
   const [inputValue, setInputValue] = useState<boolean>(true);
 

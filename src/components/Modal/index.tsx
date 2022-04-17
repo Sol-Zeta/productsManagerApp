@@ -12,7 +12,7 @@ interface Props {
   primaryOnPress?: () => void;
   secondaryButton?: string;
   secondaryOnPress?: () => void;
-  onClose: () => void;
+  onClose?: () => void;
   children?: JSX.Element | JSX.Element[];
 }
 
@@ -25,6 +25,7 @@ export const Modal = ({
   secondaryButton,
   secondaryOnPress,
   children,
+  onClose
 }: Props) => {
   const [isOpen, setIsOpen] = useState(openModal);
 
@@ -38,12 +39,14 @@ export const Modal = ({
             <View style={styles.container}>
                 <View style={styles.header}>
                     {title && <Text style={styles.title}>{title}</Text>}
-                    <IconButton 
-                      small 
-                      icon={icons.close} 
-                      onPress={() => setIsOpen(false)}
-                      customStyle={styles.button_close}
-                    />
+                    { onClose && (
+                      <IconButton 
+                        small 
+                        icon={icons.close} 
+                        onPress={onClose}
+                        customStyle={styles.button_close}
+                      />
+                    )}
                 </View>
                 {text && <Text style={styles.text}>{text}</Text>}
                 {children}
