@@ -1,7 +1,5 @@
-import { Home } from './Home';
-import { Onboarding } from './Onboarding';
-import { EditProduct } from './EditProduct';
-import { ProductDetail } from './ProductDetail';
-import { Splash } from './Splash';
+import {Home} from './Home';
+import {EditProduct} from './EditProduct';
+import {ProductDetail} from './ProductDetail';
 
-export { Home, Onboarding, EditProduct, ProductDetail, Splash }
+export {Home, EditProduct, ProductDetail};
