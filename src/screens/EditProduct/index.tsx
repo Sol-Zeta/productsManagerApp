@@ -13,7 +13,7 @@ import {
 } from '../../components';
 import {MainNavigationParams, IProduct} from '../../interfaces';
 import {modalMessages} from '../../data/modalMessages';
-import {cleanData} from '../../utils';
+import {formatData} from '../../utils';
 import {styles} from './styles';
 
 interface Params extends IProduct {
@@ -33,6 +33,7 @@ export const EditProduct = ({route, navigation}: Props) => {
     active: true,
     SKU: '',
   });
+  const [isProductActive, setisProductActive] = useState(true)
   const [formTitle, setFormTitle] = useState('');
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState('');
@@ -61,16 +62,18 @@ export const EditProduct = ({route, navigation}: Props) => {
 
   const onSubmit = async (formData: any) => {
     try {
+      const newFields = formatData(route.params, {
+        ...formData,
+        active: isProductActive,
+      },formType);
       if (formType === 'edit' && _id) {
-        const newFields = cleanData(route.params, {
-          ...formData,
-          active: data.active,
-        });
         if (Object.keys(newFields).length) {
           dispatch(updateProductById(_id, newFields));
+          setIsFormSaved(true)
         }
       } else {
-        dispatch(postProduct({...formData, active: data.active}));
+        dispatch(postProduct(newFields));
+        setIsFormSaved(true);
       }
     } catch (error) {
       console.error('error enviado datos', error);
@@ -109,26 +112,28 @@ export const EditProduct = ({route, navigation}: Props) => {
       setFormTitle('Producto nuevo');
     } else {
       setData({name, description, active, price, SKU});
+      setisProductActive(active ? true : false)
       setFormTitle('Modifica el producto');
     }
   }, [formType]);
 
   useEffect(() => {
-    if(isFormSaved){
+    console.log("guardado", updateSuccess, postSuccess)
+    if (isFormSaved) {
       if (updateSuccess) {
         setIsFormSaved(updateSuccess);
         setModalMessage('cambios guardados con éxito');
         setIsOpenModal(true);
       }
       if (postSuccess) {
-        setIsFormSaved(postSuccess)
+        setIsFormSaved(postSuccess);
         setModalMessage(
           'Tu nuevo producto ha sido ingresado a la base de datos correctamente',
         );
         setIsOpenModal(true);
       }
     }
-  }, [updateSuccess, postSuccess]);
+  }, [updateSuccess, postSuccess, isFormSaved]);
 
   return (
     <>
@@ -208,11 +213,11 @@ export const EditProduct = ({route, navigation}: Props) => {
           </View>
           <View style={styles.input_container}>
             <FormSwitchInput
-              value={data.active}
+              value={isProductActive}
               firstValue={'oculto'}
               secondValue={'activo'}
               inputKey={'active'}
-              onChange={value => setData({...data, active: value})}
+              onChange={value => setisProductActive(value)}
             />
           </View>
           <View style={styles.input_container}>
@@ -269,18 +274,14 @@ export const EditProduct = ({route, navigation}: Props) => {
         openModal={isOpenModal}
         onClose={() => setIsOpenModal(false)}
         primaryButton={!isFormSaved ? 'Volver al formulario' : undefined}
-        primaryOnPress={
-          !isFormSaved
-            ? () => setIsOpenModal(false)
-            : undefined
-        }
+        primaryOnPress={!isFormSaved ? () => setIsOpenModal(false) : undefined}
         secondaryButton={
           !isFormSaved ? 'Salir sin guardar' : 'Volver al listado'
         }
         secondaryOnPress={
           !isFormSaved
             ? () => navigation.goBack()
-            : () => navigation.navigate('home')
+            : () => navigation.navigate('navigation')
         }
       />
     </>

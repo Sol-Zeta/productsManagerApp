@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     paddingHorizontal: '8%',
-    paddingVertical: 70
+    paddingVertical: 70,
   },
   scroll_view: {},
   title_container: {
@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     width: '100%',
   },
   title: {
-    ...fonts.main_title
+    ...fonts.main_title,
   },
   input_container: {
     width: '100%',
@@ -29,13 +29,13 @@ export const styles = StyleSheet.create({
   },
   buttons_container: {
     ...flex.row_space_between,
-    width: '100%'
+    width: '100%',
   },
   button_standard: {
-    width: '45%'
+    width: '45%',
   },
   button_reset: {
     width: '100%',
-    backgroundColor: colors.error
+    backgroundColor: colors.error,
   },
 });

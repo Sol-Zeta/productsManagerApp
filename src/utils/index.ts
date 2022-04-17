@@ -1,13 +1,13 @@
 import {calculatePages} from './calculatePages';
-import {cleanData} from './cleanData';
+import {formatData} from './formatData';
 import {findImageByName} from './findImageByName';
 import {requestOptions} from './requestOptions';
 import {shareProduct} from './shareProduct';
 
 export {
   calculatePages,
-  cleanData,
+  formatData,
   findImageByName,
   requestOptions,
-  shareProduct
+  shareProduct,
 };
