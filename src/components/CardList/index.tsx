@@ -21,10 +21,11 @@ export const CardList = ({
 }: Props) => {
   const [items, setItems] = useState<IProduct[] | []>([]);
 
-
   useEffect(() => {
     if (list?.length) {
       setItems(list);
+    } else {
+      setItems([])
     }
   }, [list]);
 

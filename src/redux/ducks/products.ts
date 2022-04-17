@@ -16,14 +16,21 @@ export const SET_DELETE_SUCCESS = 'setDeleteSuccess';
 export const DELETE_PRODUCT = 'deleteProduct';
 
 // export const handleApiError = () => ({ type: HANDLE_API_ERROR})
-export const setAllProducts = (products: any, page: number, quantity: number, active: boolean) => {
-  console.log('3. ducks', products);
+export const setAllProducts = (
+  success: boolean,
+  products: any,
+  page: number,
+  quantity: number,
+  active: boolean,
+) => {
   return {
     type: SET_ALL_PRODUCTS,
-    products,
-    page, 
+    products: success ? products.data.list : [],
+    totalProducts: success ? products.data.totalCount : 0,
+    page,
     quantity,
-    active
+    active,
+    getProductsSuccess: success,
   };
 };
 export const getAllProducts = () => ({type: GET_ALL_PRODUCTS});
@@ -43,6 +50,7 @@ export const setUpdateSuccess = (updateSuccess: boolean) => ({
 });
 export const updateProductById = (id: string, body: any) => ({
   type: UPDATE_PRODUCT_BY_ID,
+  updateSuccess: false,
   id,
   body,
 });
@@ -55,9 +63,14 @@ export const postProduct = (body: any) => ({type: POST_PRODUCT, body});
 export const setDeleteSuccess = (deleteSuccess: boolean, products: any) => ({
   type: SET_DELETE_SUCCESS,
   deleteSuccess,
-  products
+  products,
 });
-export const deleteProduct = (id: string, page: number, quantity: number, active: boolean) => ({type: DELETE_PRODUCT, id, page, quantity, active});
+export const deleteProduct = (
+  id: string,
+  page: number,
+  quantity: number,
+  active: boolean,
+) => ({type: DELETE_PRODUCT, id, page, quantity, active});
 
 interface IInitialState {
   products: IProduct[] | [];
@@ -68,6 +81,8 @@ interface IInitialState {
 // *** STATE *** //
 const initialState = {
   products: [],
+  totalProducts: 0,
+  getProductsSuccess: false,
   productDetail: undefined,
   favouriteProducts: [],
   updateSuccess: false,
@@ -76,34 +91,45 @@ const initialState = {
   deleteSuccess: false,
   page: 0,
   quantity: 3,
-  active: true
+  active: true,
 };
 
 export default (state: IInitialState = initialState, action: any) => {
+  console.log("ESTADO *************************************** ", action.type, state)
   switch (action.type) {
     case SET_ALL_PRODUCTS:
       console.log('SET_ALL_PRODUCTS');
-      return {...state, products: action.products, saludo: 'HOLI'};
+      const {products, getProductsSuccess, totalProducts} = action;
+      return {...state, products, getProductsSuccess, totalProducts};
+    case GET_PRODUCTS_BY_PAGE:
+      console.log('GET_PRODUCTS_BY_PAGE');
+      return {...state};
     case SET_PRODUCT_DETAIL:
       console.log('3.SET_PRODUCT_DETAIL');
       return {...state, productDetail: action.productDetail};
+    case GET_PRODUCT_BY_ID:
+      console.log('3.SET_PRODUCT_DETAIL');
+      return {...state};
     case SET_UPDATE_SUCCESS:
       console.log('3.SET_UPDATE_SUCCESS');
       return {...state, updateSuccess: action.updateSuccess};
+    case UPDATE_PRODUCT_BY_ID:
+      return {...state};
     case SET_POST_SUCCESS:
       console.log('3. SET_POST_SUCCESS');
       return {...state, postSuccess: action.postSuccess, postId: action.postId};
-    case POST_PRODUCT:
-      return {...state, setPostSuccess: false};
+    // case POST_PRODUCT:
+    //   return {...state, postSuccess: false};
     case SET_DELETE_SUCCESS:
       console.log('3. SET_DELETE_SUCCESS');
-      return {...state, deleteSuccess: action.deleteSuccess, products: action.products};
-    // case DELETE_PRODUCT:
-    //   console.log('2,5. DELETE_PRODUCT');
-    //   return {...state, deleteSuccess: false, products: action.products};
-
+      return {
+        ...state,
+        deleteSuccess: action.deleteSuccess,
+        products: action.products,
+      };
     default:
-      console.log('default');
-      return {...state, products: action.products, saludo: 'rechau'};
+      console.log('DEFAULT', action);
+      // return {...state, products: action.products};
+      return initialState;
   }
 };

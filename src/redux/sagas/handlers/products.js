@@ -31,10 +31,13 @@ export function* handleGetProductsByPage({page, quantity, active}) {
       requestGetProductsByPage(page, quantity, active),
     );
     console.log('2. handler =>', response);
-    yield put(setAllProducts(response));
-    return;
+    yield put(
+      setAllProducts(response.success, response, page, quantity, active),
+    );
   } catch (error) {
-    console.error('2. Error handler =>', error);
+    console.log('se va por aca');
+    yield put(setAllProducts(false, {}, page, quantity, active));
+    console.error('2. Error handler ====>', error);
   }
 }
 export function* handleGetProductById(id) {
@@ -42,7 +45,7 @@ export function* handleGetProductById(id) {
     const response = yield call(() => requestGetProductById(id));
     console.log('2. handler =>', response);
     if (response.success) {
-      yield put(setProductDetail(response));
+      yield put(setProductDetail(response.data));
     } else {
       yield put(setProductDetail(undefined));
     }
@@ -52,7 +55,8 @@ export function* handleGetProductById(id) {
     console.error('2. Error handler =>', error);
   }
 }
-export function* handleUpdateProductById(id, body) {
+export function* handleUpdateProductById({id, body}) {
+  console.log('body en handler', id, body);
   try {
     const response = yield call(() => requestPutProductById(id, body));
     console.log('2. handler =>', response);
