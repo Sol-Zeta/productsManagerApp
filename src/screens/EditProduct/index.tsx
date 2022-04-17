@@ -13,7 +13,7 @@ import {
 } from '../../components';
 import {MainNavigationParams, IProduct} from '../../interfaces';
 import {modalMessages} from '../../data/modalMessages';
-import {formatData} from '../../utils';
+import {formatData, createSKU} from '../../utils';
 import {styles} from './styles';
 
 interface Params extends IProduct {
@@ -33,11 +33,12 @@ export const EditProduct = ({route, navigation}: Props) => {
     active: true,
     SKU: '',
   });
-  const [isProductActive, setisProductActive] = useState(true)
+  const [isProductActive, setisProductActive] = useState(true);
   const [formTitle, setFormTitle] = useState('');
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isFormSaved, setIsFormSaved] = useState(false);
+  const [isDataSubmited, setIsDataSubmited] = useState(false);
 
   const {_id, name, description, active, price, SKU, formType} = route.params;
 
@@ -56,20 +57,24 @@ export const EditProduct = ({route, navigation}: Props) => {
       name: name ?? '',
       description: description ?? '',
       price: price ?? 0,
-      SKU: SKU ?? '',
+      SKU: SKU ?? createSKU(),
     },
   });
 
   const onSubmit = async (formData: any) => {
     try {
-      const newFields = formatData(route.params, {
-        ...formData,
-        active: isProductActive,
-      },formType);
+      const newFields = formatData(
+        route.params,
+        {
+          ...formData,
+          active: isProductActive,
+        },
+        formType,
+      );
       if (formType === 'edit' && _id) {
         if (Object.keys(newFields).length) {
           dispatch(updateProductById(_id, newFields));
-          setIsFormSaved(true)
+          setIsFormSaved(true);
         }
       } else {
         dispatch(postProduct(newFields));
@@ -80,6 +85,8 @@ export const EditProduct = ({route, navigation}: Props) => {
       setModalMessage(modalMessages.error_saving_changes);
       setIsOpenModal(true);
       setIsFormSaved(false);
+    } finally {
+      setIsDataSubmited(true);
     }
   };
 
@@ -112,28 +119,31 @@ export const EditProduct = ({route, navigation}: Props) => {
       setFormTitle('Producto nuevo');
     } else {
       setData({name, description, active, price, SKU});
-      setisProductActive(active ? true : false)
+      setisProductActive(active ? true : false);
       setFormTitle('Modifica el producto');
     }
   }, [formType]);
 
   useEffect(() => {
-    console.log("guardado", updateSuccess, postSuccess)
-    if (isFormSaved) {
+    if (isDataSubmited && isFormSaved) {
+      setIsDataSubmited(false);
+      setIsFormSaved(false);
       if (updateSuccess) {
-        setIsFormSaved(updateSuccess);
         setModalMessage('cambios guardados con éxito');
         setIsOpenModal(true);
-      }
-      if (postSuccess) {
-        setIsFormSaved(postSuccess);
+      } else if (postSuccess) {
         setModalMessage(
           'Tu nuevo producto ha sido ingresado a la base de datos correctamente',
         );
         setIsOpenModal(true);
+      } else {
+        setModalMessage(
+          'No hemos podido guardar tus datos, revísalos y vuelve a enviarlos',
+        );
+        setIsOpenModal(true);
       }
     }
-  }, [updateSuccess, postSuccess, isFormSaved]);
+  }, [isDataSubmited]);
 
   return (
     <>
@@ -146,6 +156,10 @@ export const EditProduct = ({route, navigation}: Props) => {
               rules={{
                 required: true,
                 maxLength: 30,
+                pattern: {
+                  value: /^[ a-zA-ZÀ-ÿ\u00f1\u00d1]*$/i,
+                  message: 'Ingresa un nombre válido',
+                },
               }}
               name="name"
               render={({field: {onChange, onBlur, value}}) => (
@@ -156,7 +170,7 @@ export const EditProduct = ({route, navigation}: Props) => {
                   onBlur={onBlur}
                   onChange={onChange}
                   errorMessage={
-                    errors.name ? 'Introduce un nombre válido' : undefined
+                    errors.name ? 'Ingresa un nombre válido' : undefined
                   }
                   textLimit={30}
                   placeholder={'Nombre del producto'}
@@ -194,6 +208,10 @@ export const EditProduct = ({route, navigation}: Props) => {
               rules={{
                 required: true,
                 maxLength: 10,
+                pattern: {
+                  value: /^[0-9]+[.]{0,1}[0-9]+$/i,
+                  message: 'Ingresa un precio válido',
+                },
               }}
               name="price"
               render={({field: {onChange, onBlur, value}}) => (
@@ -204,7 +222,7 @@ export const EditProduct = ({route, navigation}: Props) => {
                   onBlur={onBlur}
                   onChange={onChange}
                   errorMessage={
-                    errors.price ? 'Introduce un precio válido' : undefined
+                    errors.price ? 'Ingresa un precio válido' : undefined
                   }
                   placeholder={'Precio del producto por kilo'}
                 />
@@ -230,12 +248,13 @@ export const EditProduct = ({route, navigation}: Props) => {
               name="SKU"
               render={({field: {onChange, onBlur, value}}) => (
                 <FormTextInput
-                  label={'Código único (SKU)'}
+                  label={'SKU - campo no editable'}
                   multiline={false}
                   value={value || ''}
                   textLimit={15}
                   onBlur={onBlur}
                   onChange={onChange}
+                  disabled={true}
                   errorMessage={
                     errors.SKU ? 'Introduce un código válido' : undefined
                   }
@@ -269,7 +288,7 @@ export const EditProduct = ({route, navigation}: Props) => {
         </ScrollView>
       </MainBackground>
       <Modal
-        title={isFormSaved ? '¡ESTUPENDO!' : 'ATENCIÓN'}
+        title={'ATENCIÓN'}
         text={modalMessage}
         openModal={isOpenModal}
         onClose={() => setIsOpenModal(false)}

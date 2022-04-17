@@ -95,41 +95,44 @@ const initialState = {
 };
 
 export default (state: IInitialState = initialState, action: any) => {
-  console.log("ESTADO *************************************** ", action.type, state)
   switch (action.type) {
     case SET_ALL_PRODUCTS:
       console.log('SET_ALL_PRODUCTS');
-      const {products, getProductsSuccess, totalProducts} = action;
-      return {...state, products, getProductsSuccess, totalProducts};
-    case GET_PRODUCTS_BY_PAGE:
-      console.log('GET_PRODUCTS_BY_PAGE');
-      return {...state};
+      const {
+        products,
+        getProductsSuccess,
+        totalProducts,
+        page,
+        quantity,
+        active,
+      } = action;
+      return {
+        ...state,
+        products,
+        getProductsSuccess,
+        totalProducts,
+        page,
+        quantity,
+        active,
+      };
     case SET_PRODUCT_DETAIL:
       console.log('3.SET_PRODUCT_DETAIL');
       return {...state, productDetail: action.productDetail};
-    case GET_PRODUCT_BY_ID:
-      console.log('3.SET_PRODUCT_DETAIL');
-      return {...state};
     case SET_UPDATE_SUCCESS:
       console.log('3.SET_UPDATE_SUCCESS');
       return {...state, updateSuccess: action.updateSuccess};
-    case UPDATE_PRODUCT_BY_ID:
-      return {...state};
     case SET_POST_SUCCESS:
       console.log('3. SET_POST_SUCCESS');
       return {...state, postSuccess: action.postSuccess, postId: action.postId};
-    // case POST_PRODUCT:
-    //   return {...state, postSuccess: false};
     case SET_DELETE_SUCCESS:
-      console.log('3. SET_DELETE_SUCCESS');
+      console.log('3. SET_DELETE_SUCCESS', action.products);
       return {
         ...state,
         deleteSuccess: action.deleteSuccess,
         products: action.products,
       };
     default:
-      console.log('DEFAULT', action);
-      // return {...state, products: action.products};
-      return initialState;
+      console.log('DEFAULT', state);
+      return {...state};
   }
 };

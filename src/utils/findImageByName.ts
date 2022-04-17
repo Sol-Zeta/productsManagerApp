@@ -1,6 +1,6 @@
 import {images} from '../assetsRoutes';
 export const findImageByName = (name: string) => {
-  const product = name.split(' ')[0].toLowerCase();
+  const product = name?.split(' ')[0].toLowerCase();
   switch (product) {
     case 'tomate':
       return images.tomato;

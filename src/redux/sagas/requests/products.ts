@@ -7,7 +7,7 @@ export const requestGetAllProducts = async (active: boolean) => {
     const {data} = await axios.get(
       `${baseUrl}?page=0&itemsPerPage=100&active=${active}`,
     );
-    console.log('1. AXIOS RESPONSE:', data);
+    console.log('XIOS RESPONSE:', data);
     return {success: true, data};
   } catch (error) {
     console.error('1. AXIOS ERROR', error);

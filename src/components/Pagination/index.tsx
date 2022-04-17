@@ -14,7 +14,7 @@ export const Pagination = ({limit, value, getPage}: Props) => {
     <View style={styles.container}>
       <TouchableOpacity
         disabled={value === 0}
-        onPress={() => getPage(value - 1)}>
+        onPress={() => getPage(value > 0 ? value - 1 : value)}>
         <View style={[styles.button_container]}>
           <Image
             source={icons.back}
@@ -27,7 +27,7 @@ export const Pagination = ({limit, value, getPage}: Props) => {
       </TouchableOpacity>
       <TouchableOpacity
         disabled={value === limit}
-        onPress={() => getPage(value + 1)}>
+        onPress={() => getPage(value < limit ? value + 1 : value)}>
         <View style={[styles.button_container]}>
           <Text style={[styles.text, value === limit && styles.text_disabled]}>
             Siguiente

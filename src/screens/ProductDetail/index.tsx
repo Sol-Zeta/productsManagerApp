@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {ScrollView, View, Text, Image, PixelRatio} from 'react-native';
+import {ScrollView, View, Text, Image} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {useSelector, useDispatch} from 'react-redux';
@@ -38,7 +38,7 @@ export const ProductDetail = ({route, navigation}: Props) => {
       dispatch(getProductById(itemId));
     }
   }, [isOnBlur]);
-
+  
   useEffect(() => {
     setIsLoading(true);
     dispatch(getProductById(itemId));

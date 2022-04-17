@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, View, Text, ScrollView} from 'react-native';
+import {SafeAreaView, View, Text} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import {getProductsByPage} from '../../redux/ducks/products';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -19,43 +20,62 @@ export const Home = ({navigation}: StackScreenProps<MainNavigationParams>) => {
   const [isLoading, setIsLoading] = useState(true);
   const [allProducts, setAllProducts] = useState([]);
   const [activeProducts, setActiveProducts] = useState(true);
-  const [page, setPage] = useState(0);
+  const [activePage, setActivePage] = useState(0);
   const [pageLimit, setPageLimit] = useState(0);
+  const [isOnBlur, setIsOnBlur] = useState(true);
 
-  const {products, totalProducts, getProductsSuccess} = useSelector(
-    (state: any) => state.products,
-  );
+  const {products, totalProducts, getProductsSuccess} =
+    useSelector((state: any) => state.products);
   const dispatch = useDispatch();
 
   const productsPerPage = 3;
 
   const handlePage = (page: number) => {
     if (page <= pageLimit) {
-      setPage(page);
+      setActivePage(page);
     }
   };
 
   useEffect(() => {
-    console.log('accion que se repite?')
     setIsLoading(true);
-    dispatch(getProductsByPage(page, productsPerPage, activeProducts));
-  }, [page]);
+    dispatch(getProductsByPage(activePage, productsPerPage, activeProducts));
+  }, [activePage]);
 
   useEffect(() => {
-    console.log('active', activeProducts);
-    // dispatch(getProductsByPage(page, productsPerPage, activeProducts));
+    dispatch(getProductsByPage(activePage, productsPerPage, activeProducts));
   }, [activeProducts]);
 
   useEffect(() => {
     setIsLoading(false);
     if (getProductsSuccess && products) {
-      const limit = calculatePages(totalProducts, productsPerPage);
-      setPageLimit(limit);
       setAllProducts(products);
     } else {
       setAllProducts([]);
     }
   }, [products]);
+
+  useEffect(() => {
+    if (totalProducts > 0) {
+      const limit = calculatePages(totalProducts, productsPerPage);
+      setPageLimit(limit);
+    } else {
+      setPageLimit(0);
+    }
+  }, [totalProducts]);
+
+  useEffect(() => {
+    if (!isOnBlur) {
+      setIsLoading(true);
+      dispatch(getProductsByPage(activePage, productsPerPage, activeProducts));
+    }
+  }, [isOnBlur]);
+
+  useFocusEffect(() => {
+    setIsOnBlur(false);
+    return () => {
+      setIsOnBlur(true);
+    };
+  });
 
   if (isLoading) {
     return <Loader />;
@@ -89,7 +109,11 @@ export const Home = ({navigation}: StackScreenProps<MainNavigationParams>) => {
           list={allProducts}
         />
         <View style={styles.pagination_container}>
-          <Pagination limit={pageLimit} value={page} getPage={handlePage} />
+          <Pagination
+            limit={pageLimit}
+            value={activePage}
+            getPage={handlePage}
+          />
         </View>
       </SafeAreaView>
     </MainBackground>

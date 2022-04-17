@@ -35,7 +35,6 @@ export function* handleGetProductsByPage({page, quantity, active}) {
       setAllProducts(response.success, response, page, quantity, active),
     );
   } catch (error) {
-    console.log('se va por aca');
     yield put(setAllProducts(false, {}, page, quantity, active));
     console.error('2. Error handler ====>', error);
   }
@@ -56,7 +55,6 @@ export function* handleGetProductById(id) {
   }
 }
 export function* handleUpdateProductById({id, body}) {
-  console.log('body en handler', id, body);
   try {
     const response = yield call(() => requestPutProductById(id, body));
     console.log('2. handler =>', response);
@@ -91,7 +89,8 @@ export function* handleDeleteProduct(id) {
     const response = yield call(() => requestDeleteProductById(id));
     console.log('2. handler =>', response);
     if (response.success) {
-      yield put(setDeleteSuccess(true, response));
+      const products = response.data.list ?? [];
+      yield put(setDeleteSuccess(true, products));
     } else {
       yield put(setDeleteSuccess(false));
     }
