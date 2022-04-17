@@ -1,4 +1,4 @@
-import { colors } from './colors';
+import {colors} from './colors';
 export const fonts: any = {
   montserrat: {
     fontFamily: 'AmaticSC_400Regular',
@@ -25,5 +25,5 @@ export const fonts: any = {
     letterSpacing: 3,
     fontWeight: '600',
     marginBottom: 20,
-  }
+  },
 };

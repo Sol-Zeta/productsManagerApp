@@ -14,5 +14,5 @@ export const shadows: any = {
     shadowOpacity: 1,
     shadowRadius: 3,
     elevation: 10,
-  }
+  },
 };
