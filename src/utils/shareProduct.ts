@@ -3,7 +3,7 @@ import {Share} from 'react-native';
 
 export const shareProduct = async ({
   name,
-  price
+  price,
 }: {
   name: string;
   price: number;
